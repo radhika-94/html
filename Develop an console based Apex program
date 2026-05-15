@@ -1,0 +1,199 @@
+Develop an console based Apex program 
+
+
+
+Apex Class:
+
+public class EmailController {
+
+
+
+  public String toEmail {get; set;}
+
+  public String subject {get; set;}
+
+  public String body {get; set;}
+
+
+
+  // Send Email Method
+
+  public void sendEmail() {
+
+
+
+    // Validate Email
+
+    if(toEmail == null ||
+
+      !Pattern.matches(
+
+      '^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$',
+
+      toEmail)) {
+
+
+
+      ApexPages.addMessage(
+
+        new ApexPages.Message(
+
+          ApexPages.Severity.ERROR,
+
+          'Invalid Email ID'
+
+        )
+
+      );
+
+
+
+      return;
+
+    }
+
+
+
+    try {
+
+
+
+      Messaging.SingleEmailMessage mail =
+
+      new Messaging.SingleEmailMessage();
+
+
+
+      mail.setToAddresses(
+
+        new String[] {toEmail}
+
+      );
+
+
+
+      mail.setSubject(subject);
+
+
+
+      mail.setPlainTextBody(body);
+
+
+
+      // WITHOUT ATTACHMENT
+
+      Messaging.sendEmail(
+
+        new Messaging.SingleEmailMessage[]
+
+        {mail}
+
+      );
+
+
+
+      ApexPages.addMessage(
+
+        new ApexPages.Message(
+
+          ApexPages.Severity.CONFIRM,
+
+          'Email Sent Successfully'
+
+        )
+
+      );
+
+
+
+    } catch(Exception e) {
+
+
+
+      ApexPages.addMessage(
+
+        new ApexPages.Message(
+
+          ApexPages.Severity.ERROR,
+
+          e.getMessage()
+
+        )
+
+      );
+
+    }
+
+  }
+
+}
+
+
+
+Visualforce:
+
+<apex:page controller="EmailController">
+
+
+
+  <apex:form>
+
+
+
+    <apex:pageBlock title="Email Notification System">
+
+
+
+      <apex:pageMessages/>
+
+
+
+      <apex:pageBlockSection columns="1">
+
+
+
+        <apex:inputText
+
+          value="{!toEmail}"
+
+          label="Recipient Email"/>
+
+
+
+        <apex:inputText
+
+          value="{!subject}"
+
+          label="Subject"/>
+
+
+
+        <apex:inputTextarea
+
+          value="{!body}"
+
+          label="Message Body"/>
+
+
+
+      </apex:pageBlockSection>
+
+
+
+      <apex:commandButton
+
+        value="Send Email"
+
+        action="{!sendEmail}"/>
+
+
+
+    </apex:pageBlock>
+
+
+
+  </apex:form>
+
+
+
+</apex:page>
