@@ -1,0 +1,214 @@
+Student Record Management System
+
+Roll_number:Number,Class:Text,Mobie_number:Phone
+
+
+
+Apex cass:
+
+public class StudentController {
+
+
+
+    public studentdata__c stu {get; set;}
+
+    public List<studentdata__c> studentList {get; set;}
+
+
+
+    // Constructor
+
+    public StudentController() {
+
+
+
+        stu = new studentdata__c();
+
+
+
+        loadStudents();
+
+    }
+
+
+
+    // Save Student
+
+    public void saveStudent() {
+
+
+
+        insert stu;
+
+
+
+        stu = new studentdata__c();
+
+
+
+        loadStudents();
+
+    }
+
+
+
+    // Load Students
+
+    public void loadStudents() {
+
+
+
+        studentList = [SELECT Id,
+
+                       Name,
+
+                       Roll_Number__c,
+
+                       Class__c,
+
+                       Mobile_No__c
+
+                       FROM studentdata__c];
+
+    }
+
+}
+
+
+
+Visualforce page:
+
+<apex:page controller="StudentController">
+
+
+
+  <apex:form>
+
+
+
+    <h1>Student Record Management System</h1>
+
+
+
+    <apex:pageBlock title="Add Student">
+
+
+
+      <apex:pageBlockSection columns="1">
+
+
+
+        <apex:inputText value="{!stu.Name}"
+
+                label="Student Name"/>
+
+
+
+        <apex:inputText value="{!stu.Roll_No__c}"
+
+                label="Roll No"/>
+
+
+
+        <apex:inputText value="{!stu.Class__c}"
+
+                label="Class"/>
+
+
+
+        <apex:inputText value="{!stu.Mobile_No__c}"
+
+                label="Mobile No"/>
+
+
+
+      </apex:pageBlockSection>
+
+
+
+      <apex:commandButton value="Save"
+
+                action="{!saveStudent}"/>
+
+
+
+    </apex:pageBlock>
+
+
+
+    <br/>
+
+
+
+    <apex:pageBlock title="Student Records">
+
+
+
+      <apex:pageBlockTable value="{!studentList}"
+
+                 var="s">
+
+
+
+        <apex:column value="{!s.Name}"
+
+               headerValue="Name"/>
+
+
+
+        <apex:column value="{!s.Roll_No__c}"
+
+               headerValue="Roll No"/>
+
+
+
+        <apex:column value="{!s.Class__c}"
+
+               headerValue="Class"/>
+
+
+
+        <apex:column value="{!s.Mobile_No__c}"
+
+               headerValue="Mobile No"/>
+
+
+
+        <apex:column headerValue="Delete">
+
+
+
+          <apex:commandLink value="Delete"
+
+                   action="{!deleteStudent}">
+
+
+
+            <apex:param name="sid"
+
+                  value="{!s.Id}"/>
+
+
+
+          </apex:commandLink>
+
+
+
+        </apex:column>
+
+
+
+      </apex:pageBlockTable>
+
+
+
+    </apex:pageBlock>
+
+
+
+  </apex:form>
+
+
+
+</apex:page>
+
