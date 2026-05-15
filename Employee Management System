@@ -1,0 +1,137 @@
+Employee Management System
+
+Employee_ID:Number,Employee_Name(alreadyavailabel),Email:Email,Birth_Date:Date,Department:Text
+
+
+
+public class EmployeeManagement {
+
+
+
+    // Add Employee
+
+    public static void addEmployee(Integer empId,
+
+                                   String empName,
+
+                                   String email,
+
+                                   Date birthDate,
+
+                                   String department) {
+
+
+
+        EmployeeRecord__c emp = new EmployeeRecord__c();
+
+
+
+        emp.Employee_ID__c = empId;
+
+        emp.Name = empName;
+
+        emp.Email__c = email;
+
+        emp.Birth_Date__c = birthDate;
+
+        emp.Department__c = department;
+
+
+
+        insert emp;
+
+
+
+        System.debug('Employee Added Successfully');
+
+    }
+
+
+
+    // View Employees
+
+    public static void viewEmployees() {
+
+
+
+        List<EmployeeRecord__c> empList =
+
+        [SELECT Id,
+
+                Name,
+
+                Employee_ID__c,
+
+                Email__c,
+
+                Birth_Date__c,
+
+                Department__c
+
+         FROM EmployeeRecord__c];
+
+
+
+        for(EmployeeRecord__c e : empList) {
+
+
+
+            System.debug('Employee ID: ' + e.Employee_ID__c);
+
+            System.debug('Name: ' + e.Name);
+
+            System.debug('Email: ' + e.Email__c);
+
+            System.debug('Birth Date: ' + e.Birth_Date__c);
+
+            System.debug('Department: ' + e.Department__c);
+
+        }
+
+    }
+
+
+
+    // Delete Employee
+
+    public static void deleteEmployee(Integer empId) {
+
+
+
+        EmployeeRecord__c emp =
+
+        [SELECT Id FROM EmployeeRecord__c
+
+         WHERE Employee_ID__c = :empId
+
+         LIMIT 1];
+
+
+
+        delete emp;
+
+
+
+        System.debug('Employee Deleted Successfully');
+
+    }
+
+
+
+Developer Console:
+
+﻿EmployeeManagement.addEmployee(
+
+  101,
+
+  'Radhika',
+
+  'radhika@gmail.com',
+
+  Date.newInstance(2005, 2, 6),
+
+  'IT'
+
+);
+
+}
