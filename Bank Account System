@@ -1,0 +1,145 @@
+Bank Account System
+
+Custmer_ID:Number,CustomerName(alredy),Email:Email,Birth_Date:Date,Account_Type:Text
+
+
+
+Apex Class:
+
+
+
+public class BankSystem {
+
+
+
+    // Add Customer
+
+    public static void addCustomer(Integer custId,
+
+                                   String custName,
+
+                                   String email,
+
+                                   Date birthDate,
+
+                                   String accountType) {
+
+
+
+        Bank_Account__c acc = new Bank_Account__c();
+
+
+
+        acc.Customer_ID__c = custId;
+
+        acc.Name = custName;
+
+        acc.Email__c = email;
+
+        acc.Birth_Date__c = birthDate;
+
+        acc.Account_Type__c = accountType;
+
+
+
+        insert acc;
+
+
+
+        System.debug('Customer Added Successfully');
+
+    }
+
+
+
+    // View Customers
+
+    public static void viewCustomers() {
+
+
+
+        List<Bank_Account__c> accList =
+
+        [SELECT Id,
+
+                Name,
+
+                Customer_ID__c,
+
+                Email__c,
+
+                Birth_Date__c,
+
+                Account_Type__c
+
+         FROM Bank_Account__c];
+
+
+
+        for(Bank_Account__c a : accList) {
+
+
+
+            System.debug('Customer ID: ' + a.Customer_ID__c);
+
+            System.debug('Name: ' + a.Name);
+
+            System.debug('Email: ' + a.Email__c);
+
+            System.debug('Birth Date: ' + a.Birth_Date__c);
+
+            System.debug('Account Type: ' + a.Account_Type__c);
+
+
+
+            System.debug('-------------------');
+
+        }
+
+    }
+
+
+
+    // Delete Customer
+
+    public static void deleteCustomer(Integer custId) {
+
+
+
+        Bank_Account__c acc =
+
+        [SELECT Id FROM Bank_Account__c
+
+         WHERE Customer_ID__c = :custId
+
+         LIMIT 1];
+
+
+
+        delete acc;
+
+
+
+        System.debug('Customer Deleted Successfully');
+
+    }
+
+}
+
+
+
+Developer Console:
+
+BankAccountManagement.addCustomer(
+
+  101,
+
+  'Radhika',
+
+  'radhika@gmail.com',
+
+  Date.newInstance(2005,2,6),
+
+  'Savings'
+
+);
