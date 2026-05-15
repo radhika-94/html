@@ -1,0 +1,90 @@
+Develop an Apex program that sends an email notification
+
+
+
+Apex class:
+
+public class EmailNotification {
+
+
+
+  // Method to Send Email
+
+  public static void sendEmail() {
+
+
+
+    // Create Email Object
+
+    Messaging.SingleEmailMessage mail =
+
+    new Messaging.SingleEmailMessage();
+
+
+
+    // Receiver Email
+
+    String[] toAddresses =
+
+    new String[] {'yourgmail@gmail.com'};
+
+
+
+    // Set Receiver
+
+    mail.setToAddresses(toAddresses);
+
+
+
+    // Set Subject
+
+    mail.setSubject(
+
+      'Salesforce Email Notification'
+
+    );
+
+
+
+    // Set Body
+
+    mail.setPlainTextBody(
+
+      'Hello,\n\n' +
+
+      'This email is sent using Salesforce Apex Program.\n\n' +
+
+      'Thank You.'
+
+    );
+
+
+
+    // Send Email
+
+    Messaging.sendEmail(
+
+      new Messaging.SingleEmailMessage[]
+
+      { mail }
+
+    );
+
+
+
+    System.debug(
+
+      'Email Sent Successfully'
+
+    );
+
+  }
+
+}
+
+
+
+Developer console:
+
+EmailNotification.sendEmail();
+
